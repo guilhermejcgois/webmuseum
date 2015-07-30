@@ -5,6 +5,7 @@ import com.lpsmuseum.behaviour.museum.navigation.GuidedNavigation;
 import com.lpsmuseum.behaviour.museum.navigation.Node;
 import com.lpsmuseum.dto.Scenario;
 import com.lpsmuseum.dto.scenario.Challenge;
+import com.lpsmuseum.service.ChallengePastPresentService;
 import com.lpsmuseum.service.ChallengeService;
 import com.lpsmuseum.service.MuseumService;
 import com.lpsmuseum.service.ScenarioService;
@@ -43,9 +44,8 @@ public class NavigationController {
                     break;
             }
         }
-        if (mv != null) {
+        if (mv != null)
             mv.addObject("museum", new MuseumService().findById(id));
-        }
         return mv;
     }
 
@@ -57,9 +57,10 @@ public class NavigationController {
         Scenario scenario = noatual.getNeighbors().get(indexAtual).getScenario();
         mv.addObject("scenario", scenario);
         List<Challenge> challenges = new ChallengeService().listChallenges();
+        challenges.addAll(new ChallengePastPresentService().listChallenges());
         boolean hasChallenge = false;
         for (Challenge challenge : challenges) {
-            if (challenge.getScenario().equals(scenario.getId())) {
+            if (challenge.getScenario().getId().equals(scenario.getId())) {
                 hasChallenge = true;
                 break;
             }
@@ -77,9 +78,10 @@ public class NavigationController {
         Scenario scenario = noatual.getNeighbors().get(indexAtual).getScenario();
         mv.addObject("scenario", scenario);
         List<Challenge> challenges = new ChallengeService().listChallenges();
+        challenges.addAll(new ChallengePastPresentService().listChallenges());
         boolean hasChallenge = false;
         for (Challenge challenge : challenges) {
-            if (challenge.getScenario().equals(scenario.getId())) {
+            if (challenge.getScenario().getId().equals(scenario.getId())) {
                 hasChallenge = true;
                 break;
             }

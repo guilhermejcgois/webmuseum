@@ -10,11 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.lpsmuseum.dto.MuseologicalObject;
 import com.lpsmuseum.dto.Scenario;
-import com.lpsmuseum.dto.object.Image;
-import com.lpsmuseum.dto.scenario.ChallengePastPresent;
 import com.lpsmuseum.dto.scenario.Theme;
-import com.lpsmuseum.service.ChallengePastPresentService;
-import com.lpsmuseum.service.ImageService;
 import com.lpsmuseum.service.MuseologicalObjectService;
 import com.lpsmuseum.service.ScenarioService;
 import com.lpsmuseum.service.ThemeService;
@@ -116,24 +112,5 @@ public class ScenarioController {
             return "redirect:/scenario/error";
         }
         return "redirect:/scenario";
-    }
-
-    @RequestMapping("actions/savePresentPast")
-    public ModelAndView savePresentPast(String id_objectquestion, String id_objectanswer, String[] imageAlternativas) throws Exception {
-        ModelAndView mv = new ModelAndView("scenario/question");
-        ChallengePastPresentService s = new ChallengePastPresentService();
-        ChallengePastPresent c = new ChallengePastPresent();
-
-        c.setImageQuetion((Image) new ImageService().findById(Long.parseLong(id_objectquestion)));
-
-        c.setImageAnswer((Image) new ImageService().findById(Long.parseLong(id_objectanswer)));
-
-        for (int i = 0; i < imageAlternativas.length; i++) {
-            c.getImagesAlternativas().add((Image) new ImageService().findById(Long.parseLong(imageAlternativas[i])));
-        }
-
-        s.createChallengePastPresent(c);
-
-        return mv;
     }
 }

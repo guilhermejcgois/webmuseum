@@ -9,6 +9,8 @@
         <br/><a href="scenario">Scenarios</a>
         <br/><a href="object">Objects</a>
         <br/><a href="navigation">Navigate</a>
+        <br/><a href="challenge">Challenge</a>
+        <br/><a href="pastpresent">Past-Present</a>
         <!--
         <form method="post" action="Login" >
             <p>
