@@ -51,10 +51,10 @@
             <c:choose>
                 <c:when test="${hasChallenge}">
                     <input name="scenarioId" value="${scenario.getId()}" hidden/>
-                    <a href="navigation/challenge?scenarioId=${scenario.getId()}" align="right" class="btn btn-danger">Desafio!</a>
+                    <a href="./challenge" align="right" class="btn btn-danger">Desafio!</a>
                 </c:when>
                 <c:otherwise>
-                    <a href="navigation/challenge" align="right" class="btn btn-danger" disabled>Desafio!</a>
+                    <a href="./challenge" align="right" class="btn btn-danger" disabled>Desafio!</a>
                 </c:otherwise>
             </c:choose>
             <a href="./next" align="right" class="btn btn-danger">Avançar</a>

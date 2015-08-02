@@ -23,11 +23,11 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class NavigationController {
 
-    private static Museum museum;
-    private static List<Challenge> challenges;
-    private static List<Challenge> allChallenges;
-    private static Node noatual;
-    private static int indexAtual;
+    private Museum museum;
+    private List<Challenge> challenges;
+    private List<Challenge> allChallenges;
+    private Node noatual;
+    private int indexAtual;
 
     public NavigationController() {
         challenges = new ArrayList<>();
@@ -69,12 +69,9 @@ public class NavigationController {
     public ModelAndView avancar() {
         ModelAndView mv = new ModelAndView("navigation/scenario");
         
-        indexAtual++;
-        if (indexAtual >= noatual.getNeighbors().size()) {
-            indexAtual = 0;
-        }
+        noatual = noatual.getNeighbor().getNeighbor();
         
-        mv.addObject("scenario", noatual.getNeighbors().get(indexAtual).getScenario());
+        mv.addObject("scenario", noatual.getScenario());
         mv.addObject("hasChallenge", hasChallenges());
         mv.addObject("museum", museum.getName());
         mv.addObject("scenario", noatual.getScenario());
@@ -86,12 +83,9 @@ public class NavigationController {
     public ModelAndView voltar() {
         ModelAndView mv = new ModelAndView("navigation/scenario");
         
-        indexAtual--;
-        if (indexAtual < 0) {
-            indexAtual = noatual.getNeighbors().size() - 1;
-        }
+        noatual = noatual.doBacktrack().doBacktrack();
         
-        mv.addObject("scenario", noatual.getNeighbors().get(indexAtual).getScenario());
+        mv.addObject("scenario", noatual.getScenario());
         mv.addObject("hasChallenge", hasChallenges());
         mv.addObject("museum", museum.getName());
         mv.addObject("scenario", noatual.getScenario());
@@ -100,27 +94,22 @@ public class NavigationController {
     }
 
     @RequestMapping("navigation/challenge")
-    public ModelAndView desafio(Long scenarioId) {
+    public ModelAndView desafio() {
         ModelAndView mv = new ModelAndView("navigation/challenge");
-        List<Challenge> challenges = new ChallengeService().listChallenges();
-        for (Challenge challenge : challenges) {
-            if (challenge.getScenario().equals(scenarioId)) {
-                mv.addObject("challenge", challenge);
-                break;
-            }
-        }
-        mv.addObject("scenarioId", scenarioId);
+        
+        mv.addObject("challenge", challenges.get(0));
+        mv.addObject("scenarioId", noatual.getScenario().getId());
         return mv;
     }
     
     private boolean hasChallenges() {
-        if (!NavigationController.challenges.isEmpty())
-            NavigationController.challenges.clear();
+        if (!challenges.isEmpty())
+            challenges.clear();
         
-        for (Challenge challenge : challenges)
+        for (Challenge challenge : allChallenges)
             if (challenge.getScenario().getId().equals(noatual.getScenario().getId()))
-                NavigationController.challenges.add(challenge);
+                challenges.add(challenge);
         
-        return NavigationController.challenges.isEmpty();
+        return !challenges.isEmpty();
     }
 }
