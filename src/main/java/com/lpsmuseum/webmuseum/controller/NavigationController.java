@@ -27,7 +27,6 @@ public class NavigationController {
     private List<Challenge> challenges;
     private List<Challenge> allChallenges;
     private Node noatual;
-    private int indexAtual;
 
     public NavigationController() {
         challenges = new ArrayList<>();
@@ -47,17 +46,18 @@ public class NavigationController {
         ModelAndView mv = new ModelAndView("navigation/scenario");
         
         museum = new MuseumService().findById(id);
-        indexAtual = 0;
+        
         if (null != navigationMode) {
             switch (navigationMode) {
                 case "Aleatory":
                     noatual = new AleatoryNavigation().getNavigation(museum.getScenarios());
+                    break;
                 case "Guided":
                     noatual = new GuidedNavigation().getNavigation(museum.getScenarios());
+                    break;
             }
         }
         
-        mv.addObject("scenario", noatual.getNeighbors().get(indexAtual).getScenario());
         mv.addObject("hasChallenge", hasChallenges());
         mv.addObject("museum", museum.getName());
         mv.addObject("scenario", noatual.getScenario());
@@ -107,7 +107,7 @@ public class NavigationController {
             challenges.clear();
         
         for (Challenge challenge : allChallenges)
-            if (challenge.getScenario().getId().equals(noatual.getScenario().getId()))
+            if (challenge.getScenario() != null && challenge.getScenario().getId().equals(noatual.getScenario().getId()))
                 challenges.add(challenge);
         
         return !challenges.isEmpty();

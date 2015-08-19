@@ -36,7 +36,7 @@ public class PastPresentController {
         mv.addObject("challenges", challenges);
         return mv;
     }
-    
+
     @RequestMapping("pastpresent/create")
     public ModelAndView form() {
         ModelAndView mv = new ModelAndView("pastpresent/form");
@@ -46,11 +46,12 @@ public class PastPresentController {
 
     @RequestMapping("pastpresent/add")
     public ModelAndView addPresentPast(String id_objectquestion, String id_objectanswer, String[] imageAlternativas) throws Exception {
-        ModelAndView mv = new ModelAndView("scenario/question");
+        ModelAndView mv = new ModelAndView("pastpresent");
         ChallengePastPresentService s = new ChallengePastPresentService();
         ChallengePastPresent c = new ChallengePastPresent();
 
-        c.setImageQuestion((Image) new ImageService().findById(Long.parseLong(id_objectquestion)));
+        Image imgQuestion = (Image) new ImageService().findById(Long.parseLong(id_objectquestion));
+        c.setImageQuestion(imgQuestion);
 
         c.setImageAnswer((Image) new ImageService().findById(Long.parseLong(id_objectanswer)));
 
@@ -61,5 +62,39 @@ public class PastPresentController {
         s.createChallengePastPresent(c);
 
         return mv;
+    }
+
+    @RequestMapping("pastpresent/edit")
+    public ModelAndView edit(Long id) {
+        ModelAndView mv = new ModelAndView("pastpresent/edit");
+        mv.addObject("list", new ImageService().listObjects());
+        mv.addObject("challenge", new ChallengePastPresentService().findById(id));
+        return mv;
+    }
+
+    @RequestMapping("pastpresent/update")
+    public ModelAndView updatePresentPast(Long id, String id_objectquestion, String id_objectanswer, String[] imageAlternativas) throws Exception {
+        ModelAndView mv = new ModelAndView("pastpresent");
+        ChallengePastPresentService s = new ChallengePastPresentService();
+        ChallengePastPresent c = new ChallengePastPresentService().findById(id);
+
+        Image imgQuestion = (Image) new ImageService().findById(Long.parseLong(id_objectquestion));
+        c.setImageQuestion(imgQuestion);
+
+        c.setImageAnswer((Image) new ImageService().findById(Long.parseLong(id_objectanswer)));
+
+        for (int i = 0; i < imageAlternativas.length; i++) {
+            c.getImagesAlternativas().add((Image) new ImageService().findById(Long.parseLong(imageAlternativas[i])));
+        }
+
+        s.editChallengePastPresent(c);
+
+        return mv;
+    }
+
+    @RequestMapping("pastpresent/delete")
+    public String delete(Long id) {
+        new ChallengePastPresentService().deleteChallengePastPresent(id);
+        return "redirect:/pastpresent";
     }
 }

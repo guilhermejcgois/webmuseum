@@ -30,7 +30,7 @@
                     <tr>
                         <td><a href="pastpresent/edit?id=${challenge.challengeId}">${challenge.challengeId}</a></td>
                         <td>${challenge.scenario.id} - ${challenge.scenario.name}</td>
-                        <td>${challenge.imageQuetion.urlAddress}</td>
+                        <td>${challenge.imageQuestion.urlAddress}</td>
                         <td>${challenge.imageAnswer.urlAddress}</td>
                         <td>${challenge.imagesAlternativas.get(0).urlAddress}</td>
                         <td>${challenge.imagesAlternativas.get(1).urlAddress}</td>

@@ -12,14 +12,17 @@
     <body>
         <h3>Edit Challenge</h3>
         <form action="save" method="post">
-            <input type="text" name="challengeId" hidden="true" value="${challenge.getChallengeId() }" /><br>
-            Pergunta: <input type="text" name="descricao" value="${challenge.getDescription() }" /><br>
-            Resposta: <input type="text" name="resposta" value="${challenge.getAnswer() }" /><br>
+            <c:if test="${challenge != null}">
+            <input type="text" name="challengeId" hidden="true" value="${challenge.challengeId }" /><br>
+            Pergunta: <input type="text" name="descricao" value="${challenge.description }" /><br>
+            Resposta: <input type="text" name="resposta" value="${challenge.answer }" /><br></c:if>
+            <c:if test="${scenarios != null}">
             Cenario: <select id="drp_scenario" name="scenarioId">
                 <c:forEach items="${scenarios}" var="scenario">
-                    <option value="${scenario.getId()}" ${ scenario.getId() == challenge.getScenario().getId?"selected=\"selected\"":""}>${scenario.getId()}- ${scenario.getName() }</option>
+                    <c:if test="${scenario != null}">
+                    <option value="${scenario.id}" ${ scenario.id == challenge.scenario.id?"selected=\"selected\"":""}>${scenario.id}- ${scenario.name }</option></c:if>
                 </c:forEach>
-            </select>
+            </select></c:if>
             <br><br> 
             <br><input type="submit" value="Save">
         </form>

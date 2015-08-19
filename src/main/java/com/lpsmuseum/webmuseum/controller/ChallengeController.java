@@ -80,7 +80,7 @@ public class ChallengeController {
     }
 
     @RequestMapping("challenge/save")
-        public String editChallenge(Long challengeId, String descricao, String resposta, Long scenarioId) {
+    public String editChallenge(Long challengeId, String descricao, String resposta, Long scenarioId) {
 
         try {
             Challenge chal = service.findById(challengeId);
