@@ -15,6 +15,7 @@ Para podermos rodar nosso projeto web, estamos trabalhando com o Glassfish como 
 A instalação do [jenkins](http://jenkins-ci.org/) consiste baixar um arquivo zip com os instaladores. Após a extração, você executa o arquivo 'setup.exe' e segue dando 'Próximo' toda a vida.
 ### SonarQube
 Para a coleta de métricas estamos trabalhando com o [SonarQube v4.5.4](http://www.sonarqube.org/downloads/), como não é a versão mais recente, é necessário clicar no link 'show all versions', logo a pós a versão 4.5.5 (LTS). A instalação é simples, basta realizar o download do .zip e extrair no local desejável (que pode ser qualquer um). Desde que você esteja no windows, você precisa realizar uma simples configuração: a partir da pasta raíz do sonar, desça nos diretórios para bin/windows-x86-[32|64], de acordo com a arquitetura do seu windows, e execute como administrador o arquivo em lote InstallNTService.bat. Para executar o sonar, no windows você deve entrar no subdiretório referente ao seu windows em bin e executar como administrador StartSonat.bat, enquanto que no windows você pode executar via o terminal com:
+
   $ sudo path/for/linux/version/start.sh
 ## Coletando as métricas
 Para realizarmos a coleta de métricas de um projeto, estamos utilizando um plugin maven do sonarqube. Basicamente de configuração apenas precisamos adicionar o seguinte código para o arquivo pom do projeto:
@@ -46,4 +47,5 @@ Para realizarmos a coleta de métricas de um projeto, estamos utilizando um plug
 	</profiles>
 ```
 No Netbeans precisamos ainda fazer o seguinte: botão direito do mouse no projeto e vá para "Propriedades". No diálogo que vai abrir, vá para "Ações", e no dropbox de "Configuração" escolha sonar-build e pronto, pode dar um OK. Agora é só realizar uma build do projeto normalmente. Se você não estiver trabalhando com o Netbeans, se tiver utilizando o Jenkins por exemplo basta executar então o seguinte comando:
+
   $ mvn sonar:sonar
